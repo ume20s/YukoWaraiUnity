@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
@@ -56,7 +58,6 @@ public class Warai : MonoBehaviour
                 // まだ２回以上笑うなら別の声で笑い始める
                 if (laughTimes > 1)
                 {
-                    anime.SetTrigger("WaraiTrigger");
                     laughKoe = (laughKoe + Random.Range(1, 4)) % 4;
                     audioSource.PlayOneShot(vWarai[laughKoe]);
                     laughTimes -= 1;
@@ -67,7 +68,7 @@ public class Warai : MonoBehaviour
                     if (laughTimes == 1)
                     {
                         anime.SetTrigger("HeeTrigger");
-                        audioSource.PlayOneShot(vWaraiEnd);
+                        StartCoroutine("sayHee");
                         laughTimes -= 1;
                     }
                     // 笑い終わりなら全部終了
@@ -75,11 +76,20 @@ public class Warai : MonoBehaviour
                     {
                         anime.SetTrigger("StayTrigger");
                         isLaughing = false;
-                        laughTimes = 0;
                     }
                 }
             }
         }
+        else
+        {
+            anime.SetTrigger("StayTrigger");
+        }
+    }
+
+    IEnumerator sayHee()
+    {
+        audioSource.PlayOneShot(vWaraiEnd);
+        yield return new WaitForSeconds(3.1f);
     }
 
     // タップされたら笑いだす
@@ -89,8 +99,9 @@ public class Warai : MonoBehaviour
         if(!isLaughing)
         {
             // 笑いだす
+            anime.SetTrigger("WaraiTrigger");
             isLaughing = true;
-            laughTimes = 4;
+            laughTimes = 2;
         }
     }
 }
