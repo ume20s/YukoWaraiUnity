@@ -4,7 +4,12 @@ public class tapToStart : MonoBehaviour
 {
     public void tapToLaugh()
     {
-        // タップされたら笑いだす
-        WaraiDirector.isLaughing = true;
+        // もし笑い中じゃなかったら
+        if(!WaraiDirector.isLaughing)
+        {
+            // 笑いだす
+            WaraiDirector.isLaughing = true;
+            WaraiDirector.laughTimes = 4;
+        }
     }
 }
