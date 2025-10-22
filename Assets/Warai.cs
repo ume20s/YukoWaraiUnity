@@ -1,11 +1,12 @@
 using System.Reflection;
 using UnityEngine;
 
-public class WaraiDirector : MonoBehaviour
+public class Warai : MonoBehaviour
 {
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     // 変数もろもろ
-    static public bool isLaughing = false;                  // 笑い中
-    static public int laughTimes = 4;                       // 笑い回数
+    private bool isLaughing = false;                        // 笑い中
+    private int laughTimes = 4;                             // 笑い回数
     private int laughKoe = 0;                               // 笑い声の番号(0~4)
 
     // 音声関連
@@ -65,16 +66,31 @@ public class WaraiDirector : MonoBehaviour
                     // 最後の１回なら「へぇ」
                     if (laughTimes == 1)
                     {
+                        anime.SetTrigger("HeeTrigger");
                         audioSource.PlayOneShot(vWaraiEnd);
                         laughTimes -= 1;
                     }
                     // 笑い終わりなら全部終了
                     else
                     {
+                        anime.SetTrigger("StayTrigger");
                         isLaughing = false;
+                        laughTimes = 0;
                     }
                 }
             }
+        }
+    }
+
+    // タップされたら笑いだす
+    public void tapToLaugh()
+    {
+        // もし笑い中じゃなかったら
+        if(!isLaughing)
+        {
+            // 笑いだす
+            isLaughing = true;
+            laughTimes = 4;
         }
     }
 }
