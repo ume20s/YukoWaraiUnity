@@ -64,32 +64,25 @@ public class Warai : MonoBehaviour
                 }
                 else
                 {
-                    // 最後の１回なら「へぇ」
+                    // 最後の１回なら「へぇ」を言ってから終了
                     if (laughTimes == 1)
                     {
-                        anime.SetTrigger("HeeTrigger");
                         StartCoroutine("sayHee");
-                        laughTimes -= 1;
-                    }
-                    // 笑い終わりなら全部終了
-                    else
-                    {
-                        anime.SetTrigger("StayTrigger");
-                        isLaughing = false;
                     }
                 }
             }
         }
-        else
-        {
-            anime.SetTrigger("StayTrigger");
-        }
     }
 
+    // 「へぇ」と言ってから終了プロセス
     IEnumerator sayHee()
     {
+        laughTimes -= 1;
+        anime.SetTrigger("HeeTrigger");
         audioSource.PlayOneShot(vWaraiEnd);
-        yield return new WaitForSeconds(3.1f);
+        yield return new WaitForSeconds(1.3f);
+        anime.SetTrigger("StayTrigger");
+        isLaughing = false;
     }
 
     // タップされたら笑いだす
@@ -101,7 +94,7 @@ public class Warai : MonoBehaviour
             // 笑いだす
             anime.SetTrigger("WaraiTrigger");
             isLaughing = true;
-            laughTimes = 2;
+            laughTimes = Random.Range(4, 5);
         }
     }
 }
